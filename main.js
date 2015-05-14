@@ -1,51 +1,57 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-    // add new list to first ul
-    $('.first').on('click', function(){ // use .click
-        $('ul').first().children().last().after('<li>' + Math.floor(Math.random() * 10) + '</li>');
+    //make random content into a function
+    var RandomContent = function () {
+        return '<li>' + Math.floor(Math.random() * 10) + '</li>';
+    };
+
+    // add new list to first ul (Q1)
+    $('.first').click(function () { // use .click
+        $('ul', '.container1').first().append(RandomContent);
     }); // $('ul', '.container1')
 
-    // add new list to second ul
-    $('.second').on('click', function(){
-         $('ul').first().next().children().last().after('<li>' + Math.floor(Math.random() * 10) + '</li>');
+    // add new list to second ul (Q2)
+    $('.second').click(function () {
+         $('ul', '.container1').last().append(RandomContent);
     }); // last ul (avoid problematic coding for DOM changes) .append, avoid using .children() if possible
 
-
-    // add new list to third ul
-    $('.third').on('click', function(){
-         $('.container1').next().children().last().after('<li>' + Math.floor(Math.random() * 10) + '</li>');
+    // add new list to third ul (Q3)
+    $('.third').click(function () {
+         $('ul').last().append(RandomContent);
     }); // pick last ul among all the uls
 
+    // console log first & second ul list content (Q4)
+    $('ul', '.container1').on('click', 'li', function (e) {
+        var parent = $(e.target).parent();
+        var firstUl = $('ul', '.container1').first();
+        var secondUl = $('ul', '.container1').last();
 
-    // console log first ul list content
-    $('ul').first().on('click', 'li', function(){
-        console.log ('container1: first ul item-clicked:' + $(this).text());
-    }); // one single function
-
-    // console log second ul list content
-    $('ul').first().next().on('click', 'li', function(){
-        console.log ('container1: second ul item-clicked:' + $(this).text());
+        if ( parent[0] === firstUl[0] ) {
+            console.log ('container1: first ul item-clicked: ' + $(this).text());
+        } else if ( parent[0] === secondUl[0] ) {
+            console.log ('container1: second ul item-clicked: ' + $(this).text());
+        }
     });
 
-    // console log third ul list content
-    $('.container1').next().on('click', 'li', function(){
-        console.log ('third ul item-clicked:' + $(this).text());
+    // console.log third ul list content (Q5)
+    $('ul').last().on('click', 'li', function () {
+        console.log ('third ul item-clicked: ' + $(this).text());
     });
 
+    // // console log first ul list content (Q6)
+    $('ul').on('click', 'li:not(.x)', function (e) {
+        var parent = $(e.target).parent();
+        var firstUl = $('ul', '.container1').first();
+        var secondUl = $('ul', '.container1').last();
+        var thirdUl = $('ul').last();
 
-    // console log first ul list content
-    $('ul').first().on('click', 'li:not(.x)', function(){
-        console.log ('container1: first ul item-clicked:' + $(this).text());
-    }); // stop propagation
-
-    // console log second ul list content
-    $('ul').first().next().on('click', 'li:not(.x)', function(){
-        console.log ('container1: second ul item-clicked:' + $(this).text());
-    });
-
-    // console log third ul list content
-    $('.container1').next().on('click', 'li:not(.x)', function(){
-        console.log ('third ul item-clicked:' + $(this).text());
+        if ( parent[0] === firstUl[0] ) {
+            console.log  ('container1: first ul not .x item-clicked: ' + $(this).text());
+        } else if ( parent[0] === secondUl[0] ) {
+            console.log  ('container1: second ul not .x item-clicked: ' + $(this).text());
+        } else if ( parent[0] === thirdUl[0] ) {
+            console.log  ('third ul not .x item-clicked: ' + $(this).text());
+        }
     });
 
 });
